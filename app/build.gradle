@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:leanback-v17:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.squareup.picasso:picasso:2.3.2'
+    compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '2.0.0'
 }

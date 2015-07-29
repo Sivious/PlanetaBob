@@ -5,3 +5,7 @@
 .DS_Store
 /build
 /captures
+SymbolList.java
+YahooFinanceWrapper.java
+Stock.java
+StockQuote.java

@@ -37,6 +37,12 @@ public class Ticker implements Serializable {
     public Ticker() {
     }
 
+    public Ticker(String ticker, String description) {
+        this.ticker = ticker;
+        this.description = description;
+    }
+
+
     public static long getCount() {
         return count;
     }

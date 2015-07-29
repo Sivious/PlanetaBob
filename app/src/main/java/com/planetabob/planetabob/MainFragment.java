@@ -15,7 +15,7 @@
 package com.planetabob.planetabob;
 
 import java.net.URI;
-import java.util.Collections;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,7 +55,7 @@ public class MainFragment extends BrowseFragment {
     private static final int BACKGROUND_UPDATE_DELAY = 300;
     private static final int GRID_ITEM_WIDTH = 200;
     private static final int GRID_ITEM_HEIGHT = 200;
-    private static final int NUM_ROWS = 6;
+    private static final int NUM_ROWS = 3;
     private static final int NUM_COLS = 15;
 
     private ArrayObjectAdapter mRowsAdapter;
@@ -65,7 +65,6 @@ public class MainFragment extends BrowseFragment {
     private Timer mBackgroundTimer;
     private final Handler mHandler = new Handler();
     private URI mBackgroundURI;
-    Movie mMovie;
     CardPresenter mCardPresenter;
 
     @Override
@@ -92,22 +91,25 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void loadRows() {
-        List<Movie> list = MovieList.setupMovies();
+        List<String> markets = SymbolList.getMarkets();
+        Ticker ticker = null;
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         mCardPresenter = new CardPresenter();
 
         int i;
-        for (i = 0; i < NUM_ROWS; i++) {
-            if (i != 0) {
-                Collections.shuffle(list);
+
+        for (i = 0; i < markets.size(); i++) {  // Por cada mercado existente
+
+            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);  // Futura lista de tickers
+            List<Ticker> tickersList = SymbolList.getList(markets.get(i)); // Lista de tickers del mercado
+
+            for (int j = 0; j < tickersList.size(); j++) {  // Para cada ticker del mercado
+                listRowAdapter.add(tickersList.get(j));
             }
-            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);
-            for (int j = 0; j < NUM_COLS; j++) {
-                listRowAdapter.add(list.get(j % 5));
-            }
-            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i]);
-            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+
+            HeaderItem header = new HeaderItem(i, markets.get(i)); // Añadimos la cabecera con el nombre de mercado
+            mRowsAdapter.add(new ListRow(header, listRowAdapter)); // Montamos la línea de mercado con sus tickers
         }
 
         HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES");
@@ -168,11 +170,11 @@ public class MainFragment extends BrowseFragment {
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
-                Movie movie = (Movie) item;
+            if (item instanceof Ticker) {
+                Ticker ticker = (Ticker) item;
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
+                intent.putExtra(DetailsActivity.TICKER, ticker);
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
@@ -195,8 +197,14 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                                    RowPresenter.ViewHolder rowViewHolder, Row row) {
-            if (item instanceof Movie) {
-                mBackgroundURI = ((Movie) item).getBackgroundImageURI();
+            if (item instanceof Ticker) {
+                URI uri = null;
+                try {
+                    uri = new URI("http://commondatastorage.googleapis.com/android-tv/Sample%20videos/April%20Fool's%202013/Introducing%20Google%20Fiber%20to%20the%20Pole/bg.jpg");
+                } catch (URISyntaxException e) {
+                    uri = null;
+                }
+                mBackgroundURI = uri;
                 startBackgroundTimer();
             }
 

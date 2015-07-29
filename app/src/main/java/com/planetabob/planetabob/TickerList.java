@@ -6,11 +6,8 @@ import java.util.List;
 public final class TickerList {
     public static final String MARKETS[] = {
             "NYSE",
-            "London",    // En MainFragment.java establece el número de filas con NUM_ROWS.... si no coinciden, falla la carga de imágenes
-            "Tokio",
-            "Madrid",
-            "Berlin",
-            "IBEX-35"
+            "Nasdaq",    // En MainFragment.java establece el número de filas con NUM_ROWS.... si no coinciden, falla la carga de imágenes
+            "Madrid"
     };
 
     public static List<Ticker> list;

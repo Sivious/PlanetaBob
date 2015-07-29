@@ -41,7 +41,7 @@ public class CardPresenter extends Presenter {
     private static int CARD_HEIGHT = 176;
 
     static class ViewHolder extends Presenter.ViewHolder {
-        private Movie mMovie;
+        private Ticker mTicker;
         private ImageCardView mCardView;
         private Drawable mDefaultCardImage;
         private PicassoImageCardViewTarget mImageCardViewTarget;
@@ -53,12 +53,12 @@ public class CardPresenter extends Presenter {
             mDefaultCardImage = mContext.getResources().getDrawable(R.drawable.movie);
         }
 
-        public void setMovie(Movie m) {
-            mMovie = m;
+        public void setTicker(Ticker t) {
+            mTicker = t;
         }
 
-        public Movie getMovie() {
-            return mMovie;
+        public Ticker getTicker() {
+            return mTicker;
         }
 
         public ImageCardView getCardView() {
@@ -89,15 +89,15 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        Movie movie = (Movie) item;
-        ((ViewHolder) viewHolder).setMovie(movie);
+        Ticker ticker = (Ticker) item;
+        ((ViewHolder) viewHolder).setTicker(ticker);
 
         Log.d(TAG, "onBindViewHolder");
-        if (movie.getCardImageUrl() != null) {
-            ((ViewHolder) viewHolder).mCardView.setTitleText(movie.getTitle());
-            ((ViewHolder) viewHolder).mCardView.setContentText(movie.getStudio());
+        if (ticker.getCardImageUrl() != null) {
+            ((ViewHolder) viewHolder).mCardView.setTitleText(ticker.getDescription());
+            ((ViewHolder) viewHolder).mCardView.setContentText(ticker.getTicker());
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).updateCardViewImage(movie.getCardImageURI());
+            ((ViewHolder) viewHolder).updateCardViewImage(ticker.getCardImageURI());
         }
     }
 

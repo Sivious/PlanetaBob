@@ -35,11 +35,15 @@ public class Ticker implements Serializable {
     private TickerData tickerData;
 
     public Ticker() {
+        this.bgImageUrl = "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/card.jpg";
+        this.cardImageUrl= "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/card.jpg";
     }
 
     public Ticker(String ticker, String description) {
         this.ticker = ticker;
         this.description = description;
+        this.bgImageUrl = "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/card.jpg";
+        this.cardImageUrl = "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Demo%20Slam/Google%20Demo%20Slam_%2020ft%20Search/card.jpg";
     }
 
 
@@ -111,7 +115,7 @@ public class Ticker implements Serializable {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "Ticker{" +
                 "id=" + id +
                 ", title='" + ticker + '\'' +
                 ", backgroundImageUrl='" + bgImageUrl + '\'' +

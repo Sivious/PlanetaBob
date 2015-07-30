@@ -103,12 +103,19 @@ public class MainFragment extends BrowseFragment {
 
             ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(mCardPresenter);  // Futura lista de tickers
             List<Ticker> tickersList = SymbolList.getList(markets.get(i)); // Lista de tickers del mercado
+            String nombreMercado;
+            nombreMercado = markets.get(i);
+            Log.i(TAG, "Obtengo lista de símbolos " + nombreMercado);
+            Log.i(TAG, "El mercado tiene " + tickersList.size() + " elementos.");
+
 
             for (int j = 0; j < tickersList.size(); j++) {  // Para cada ticker del mercado
-                listRowAdapter.add(tickersList.get(j));
+                ticker = tickersList.get(j);
+                Log.i(TAG, "Añadiendo " + ticker.getTicker());
+                listRowAdapter.add(ticker);
             }
 
-            HeaderItem header = new HeaderItem(i, markets.get(i)); // Añadimos la cabecera con el nombre de mercado
+            HeaderItem header = new HeaderItem(i, nombreMercado); // Añadimos la cabecera con el nombre de mercado
             mRowsAdapter.add(new ListRow(header, listRowAdapter)); // Montamos la línea de mercado con sus tickers
         }
 
